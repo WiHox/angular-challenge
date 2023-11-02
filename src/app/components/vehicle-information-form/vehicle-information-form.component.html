@@ -1,0 +1,44 @@
+<form class="p-8" (ngSubmit)="onSubmit()" [formGroup]="vehicleForm">
+    <h2 class="text-xl font-bold text-blue-500">Voertuiginformatie opzoeken</h2>
+
+    <!-- SELECT VEHICLE TYPE-->
+    <label class="block mt-4">
+      <span class="text-gray-700">Van welk type voertuig wilt u voertuiginformatie opzoeken?</span>
+      <select class="block w-full mt-1 rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" name="vehicle-type" formControlName="vehicleType">
+        <option *ngFor="let vechileTypeName of vechicleTypeOptions" [value]="vechileTypeName">{{vechileTypeName}} </option>
+      </select>
+    </label>
+
+    <!-- SELECT VEHICLE SUBTYPE-->
+    <label class="block mt-4">
+      <span class="text-gray-700">Welk type [auto/motor/brommer] hebt u?</span>
+      <select class="block w-full mt-1 rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" name="vehicle-subtype" formControlName="vehicleBody">
+        <option *ngFor="let vechileBodyTypeName of vechicleBodyTypeOptions" [value]="vechileBodyTypeName">{{vechileBodyTypeName}} </option>
+      </select>
+    </label>
+
+    <!-- INPUT LICENSE PLATE -->
+    <label class="block mt-4">
+      <span class="text-gray-700">Vul het kenteken van uw [auto/motor/brommer] in.</span>
+      <input type="text" class="mt-1 block w-full rounded-md bg-yellow-400 focus:border-gray-500 focus:bg-yellow-300 focus:ring-0" name="kenteken" placeholder="Bijvoorbeeld AA-BB-12" formControlName="licensePlate" [ngClass]="{
+        'border-red-400': vehicleForm.get('licensePlate')?.invalid && (vehicleForm.get('licensePlate')?.dirty || vehicleForm.get('licensePlate')?.touched) 
+      }">
+      <div *ngIf="vehicleForm.get('licensePlate')?.invalid && (vehicleForm.get('licensePlate')?.dirty || vehicleForm.get('licensePlate')?.touched)" class="bg-red-110 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-2" role="alert">
+        <div class="font-bold">Oeps, het ingevoerde kenteken is niet geldig.</div>
+        <div class="block sm:inline">Gebruik het volgende formaat AA-12-BB.</div>
+      </div>
+    </label>
+
+    <div class="mt-4">
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">
+        Verzenden
+      </button>
+      <div *ngIf="showError" class="text-red-700">Vul alle waardes correct in.</div>
+    </div>
+  </form>
+
+  <br> Dirty: {{vehicleForm.dirty}}
+  <br> Touched: {{vehicleForm.touched}}
+  <br> Valid: {{vehicleForm.valid}}
+  <br> Value: {{vehicleForm.value | json}}
+  <br> Value: {{vehicleForm.get('licensePlate')?.errors | json}}
